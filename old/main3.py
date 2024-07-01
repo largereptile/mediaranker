@@ -1,6 +1,6 @@
 import random
 
-media = open("manga.txt", "r").read().splitlines()
+media = open("../manga.txt", "r").read().splitlines()
 
 random.shuffle(media)
 

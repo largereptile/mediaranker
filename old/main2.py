@@ -22,7 +22,7 @@ def fight(fighter1, fighter2):
         return False
 
 
-media = open("manga.txt", "r").read().splitlines()
+media = open("../manga.txt", "r").read().splitlines()
 
 fighters = [Fighter(m) for m in media]
 

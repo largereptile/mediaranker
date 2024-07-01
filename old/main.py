@@ -1,7 +1,7 @@
 import random
 import collections
 import math
-media = open("manga.txt", "r").read().splitlines()
+media = open("../manga.txt", "r").read().splitlines()
 
 n = len(media)
 n_matchups = n * math.log(n)
