@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import time
 
-target_user = "largereptile"
+target_user = "kommtoby"
 
 def get_first_page(user):
     r = requests.get(f"https://letterboxd.com/{user}/films/")
@@ -31,7 +31,14 @@ def get_all_films(user):
             film_poster = film.find("div", class_="poster")
             film_id = film_poster.get("data-film-slug")
             rev = film.find("p", class_="poster-viewingdata")
-            rev = rev.find("span").text
+            if rev is not None:
+                rev = rev.find("span")
+                if rev is not None:
+                    rev = rev.text
+                else:
+                    rev = "None"
+            else:
+                rev = "None"
             films.append((film_id, rev))
 
     return films
