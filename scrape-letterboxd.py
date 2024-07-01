@@ -30,9 +30,12 @@ def get_all_films(user):
         for film in film_li:
             film_poster = film.find("div", class_="poster")
             film_id = film_poster.get("data-film-slug")
-            films.append(film_id)
+            rev = film.find("p", class_="poster-viewingdata")
+            rev = rev.find("span").text
+            films.append((film_id, rev))
+
     return films
 
-with open(f"{target_user}_films.txt", "w") as f:
-    for f_id in get_all_films(target_user):
-        f.write(f"{f_id}\n")
+with open(f"{target_user}_films.txt", "w", encoding="utf8") as f:
+    for f_id, rev in get_all_films(target_user):
+        f.write(f"{f_id} - {rev}\n")
