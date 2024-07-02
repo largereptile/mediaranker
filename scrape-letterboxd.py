@@ -45,6 +45,7 @@ def get_all_films(user):
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python scrape-letterboxd.py <username>")
+        sys.exit(1)
     
     target_user = sys.argv[1]
 

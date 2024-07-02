@@ -1,4 +1,6 @@
 import random
+import sys
+
 # imagine the film is in a list where first is most preferred and last is least preferred
 def insert_film(film_list, film_title):
     if len(film_list) == 2:
@@ -37,17 +39,24 @@ def compare_films(f1, f2):
     res = int(input())
     return res
 
-films = open("largereptile_films.txt", "r", encoding="utf8").readlines()
-films = [film.split(" - ")[0] for film in films]
-random.shuffle(films)
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: python media-sorter.py <username>")
+        sys.exit(1)
 
-sorted_films = [x.strip("\n") for x in open("sorted_largereptile_films.txt", "r", encoding="utf8")]
-# sorted_films = []
-for film in films:
-    if film in sorted_films:
-        continue
-    sorted_films = insert_film(sorted_films, film)
+    target_user = sys.argv[1]
 
-    with open("sorted_largereptile_films.txt", "w", encoding="utf8") as f:
-        for film1 in sorted_films:
-            f.write(f"{film1}\n")
+    films = open(f"{target_user}_films.txt", "r", encoding="utf8").readlines()
+    films = [film.split(" - ")[0] for film in films]
+    random.shuffle(films)
+
+    sorted_films = [x.strip("\n") for x in open(f"sorted_{target_user}_films.txt", "r", encoding="utf8")]
+    # sorted_films = []
+    for film in films:
+        if film in sorted_films:
+            continue
+        sorted_films = insert_film(sorted_films, film)
+
+        with open("sorted_largereptile_films.txt", "w", encoding="utf8") as f:
+            for film1 in sorted_films:
+                f.write(f"{film1}\n")
