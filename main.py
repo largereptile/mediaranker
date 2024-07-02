@@ -4,7 +4,7 @@ import argparse
 import subprocess
 
 # Letterboxd Username Here
-letterboxd_username = "KommToby"
+letterboxd_username = "Arfaan"
 
 def main():
     # An optional parameter to run the script to forcably update letterboxd data
