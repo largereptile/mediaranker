@@ -54,8 +54,14 @@ if __name__ == "__main__":
         sorted_films = []
     
     for film in films:
-        if film not in sorted_films:
-            sorted_films = insert_film(sorted_films, film)
-            with open(sorted_films_filename, "w", encoding="utf8") as f:
-                for film1 in sorted_films:
-                    f.write(f"{film1}\n")
+      dupe = False
+      for f2 in sorted_films:
+          if film in f2:
+              dupe = True
+              break
+      if dupe or not film:
+          continue
+      sorted_films = insert_film(sorted_films, film
+      with open(sorted_films_filename, "w", encoding="utf8") as f:
+          for film1 in sorted_films:
+              f.write(f"{film1}\n")
