@@ -1,35 +1,31 @@
 import random
+import sys
+
 # imagine the film is in a list where first is most preferred and last is least preferred
 def insert_film(film_list, film_title):
-    if len(film_list) == 2:
-        res = compare_films(film_title, film_list[1])
-        if res == 2:
-            return film_list + [film_title]
-        elif res == 3:
-            return [film_list[0], f"{film_list[1]}, {film_title}"]
-        else:
-            return insert_film(film_list[:1], film_title) + [film_list[1]]
-    elif len(film_list) == 1:
-        res = compare_films(film_title, film_list[0])
-        if res == 1:
-            return [film_title, film_list[0]]
-        elif res == 3:
-            return [f"{film_title}, {film_list[0]}"]
-        else:
-            return [film_list[0], film_title]
-    elif len(film_list) == 0:
+    # If the list doesnt exist, we can create a list of just the film by itself
+    if not film_list:
         return [film_title]
+    
+    # Initialise both low and high values
+    low, high = 0, len(film_list) - 1
 
-    midpoint = round(len(film_list)/2) - 1
-    first_half = film_list[:midpoint]
-    second_half = film_list[midpoint + 1:]
-    res = compare_films(film_title, film_list[midpoint])
-    if res == 1:
-        return insert_film(first_half, film_title) + [film_list[midpoint]] + second_half
-    elif res == 3:
-        return first_half + [f"{film_list[midpoint]}, {film_title}"] + second_half
-    else:
-        return first_half + [film_list[midpoint]] + insert_film(second_half, film_title)
+    while low <= high:
+        mid = (low + high) // 2
+        res = compare_films(film_title, film_list[mid])
+
+        # New film is better
+        if res == 1:
+            high = mid - 1
+        # Other film is better
+        elif res == 2:
+            low = mid + 1
+        # Films are qual
+        else:
+            film_list[mid] = f"{film_list[mid]}, {film_title}"
+            return film_list
+        
+    return film_list[:low] + [film_title] + film_list[low:]
 
 
 def compare_films(f1, f2):
@@ -37,22 +33,35 @@ def compare_films(f1, f2):
     res = int(input())
     return res
 
-films = open("largereptile_films.txt", "r", encoding="utf8").readlines()
-films = [film.split(" - ")[0] for film in films]
-random.shuffle(films)
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: python media-sorter.py <username>")
+        sys.exit(1)
 
-sorted_films = [x.strip("\n") for x in open("sorted_largereptile_films.txt", "r", encoding="utf8")]
-# sorted_films = []
-for film in films:
-    dupe = False
-    for f2 in sorted_films:
-        if film in f2:
-            dupe = True
-            break
-    if dupe or not film:
-        continue
-    sorted_films = insert_film(sorted_films, film)
+    target_user = sys.argv[1]
 
-    with open("sorted_largereptile_films.txt", "w", encoding="utf8") as f:
-        for film1 in sorted_films:
-            f.write(f"{film1}\n")
+    films_filename = f"{target_user}_films.txt"
+    sorted_films_filename = f"sorted_{target_user}_films.txt"
+
+    films = open(films_filename, "r", encoding="utf8").readlines()
+    films = [film.split(" - ")[0] for film in films]
+    random.shuffle(films)
+
+    try:
+        sorted_films = [x.strip("\n") for x in open(sorted_films_filename, "r", encoding="utf8")]
+    except FileNotFoundError:
+        # In case new account sorting, we initialise
+        sorted_films = []
+    
+    for film in films:
+      dupe = False
+      for f2 in sorted_films:
+          if film in f2:
+              dupe = True
+              break
+      if dupe or not film:
+          continue
+      sorted_films = insert_film(sorted_films, film
+      with open(sorted_films_filename, "w", encoding="utf8") as f:
+          for film1 in sorted_films:
+              f.write(f"{film1}\n")

@@ -1,8 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import time
-
-target_user = "kommtoby"
+import sys
 
 def get_first_page(user):
     r = requests.get(f"https://letterboxd.com/{user}/films/")
@@ -43,6 +42,13 @@ def get_all_films(user):
 
     return films
 
-with open(f"{target_user}_films.txt", "w", encoding="utf8") as f:
-    for f_id, rev in get_all_films(target_user):
-        f.write(f"{f_id} - {rev}\n")
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: python scrape-letterboxd.py <username>")
+        sys.exit(1)
+    
+    target_user = sys.argv[1]
+
+    with open(f"{target_user}_films.txt", "w", encoding="utf8") as f:
+        for f_id, rev in get_all_films(target_user):
+            f.write(f"{f_id} - {rev}\n")
