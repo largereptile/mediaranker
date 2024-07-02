@@ -44,7 +44,12 @@ random.shuffle(films)
 sorted_films = [x.strip("\n") for x in open("sorted_largereptile_films.txt", "r", encoding="utf8")]
 # sorted_films = []
 for film in films:
-    if film in sorted_films:
+    dupe = False
+    for f2 in sorted_films:
+        if film in f2:
+            dupe = True
+            break
+    if dupe or not film:
         continue
     sorted_films = insert_film(sorted_films, film)
 
