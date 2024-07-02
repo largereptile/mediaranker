@@ -3,7 +3,7 @@ import sys
 import argparse
 import subprocess
 
-# Letterboxd Username Here Test
+# Letterboxd Username Here
 letterboxd_username = "KommToby"
 
 def main():
