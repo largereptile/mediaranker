@@ -34,11 +34,16 @@ def compare_films(f1, f2):
     return res
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python media-sorter.py <username>")
-        sys.exit(1)
+    target_user = "largereptile"
 
-    target_user = sys.argv[1]
+    if len(sys.argv) == 2: # doing it this way so i can run it in pycharm lazily will undo in the future
+        target_user = sys.argv[1]
+
+    # if len(sys.argv) < 2:
+    #     print("Usage: python media-sorter.py <username>")
+    #     sys.exit(1)
+    #
+    # target_user = sys.argv[1]
 
     films_filename = f"{target_user}_films.txt"
     sorted_films_filename = f"sorted_{target_user}_films.txt"
@@ -61,7 +66,7 @@ if __name__ == "__main__":
               break
       if dupe or not film:
           continue
-      sorted_films = insert_film(sorted_films, film
+      sorted_films = insert_film(sorted_films, film)
       with open(sorted_films_filename, "w", encoding="utf8") as f:
           for film1 in sorted_films:
               f.write(f"{film1}\n")
